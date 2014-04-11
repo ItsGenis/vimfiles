@@ -8,7 +8,7 @@ These are the new Codegram vimfiles!
 
 If you trust me, do this:
 
-    rm -fR ~/.vim && git clone https://github.com/codegram/vimfiles.git ~/.vim && rm ~/.vimrc && ln -s ~/.vim/vimrc ~/.vimrc && git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle && vim +BundleInstall +qa! && clear && echo "Done! :)"
+    rm -fR ~/.vim && git clone https://github.com/codegram/vimfiles.git ~/.vim && rm ~/.vimrc && ln -s ~/.vim/vimrc ~/.vimrc && git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle && vim +BundleInstall +qa! && cd ~./vim/bundle/vimproc.vim && make && clear && echo "Done! :)"
 
 ### Manual way
 
@@ -30,6 +30,10 @@ Set up your `~/vimrc.local` with your custom plugins, themes, for example:
 Open up Vim, and issue this command:
 
     :BundleInstall
+
+Now compile the vimproc extension:
+
+    cd ~/.vim/bundle/vimproc.vim && make
 
 TA-DA! Everything's done!
 
@@ -71,18 +75,15 @@ TA-DA! Everything's done!
 
 * `<F2>` to toggle Paste mode (to paste stuff from the system clipboard).
 * `,gb` in Visual mode to perform a `git blame` on the selected lines.
-* `,r` runs the current buffer in the current RVM Ruby, including `lib` and
   `test`.
-* `<tab>` in Insert mode either indents or autocompletes, depending on the
-  context.
 
 ## Plug-ins
 
-### [ack](https://github.com/mileszs/ack.vim)
+### [ag](https://github.com/rking/ag.vim)
 
-Use Ack to search through your code.
+Use Ag (the silver searcher) to search through your code.
 
-* `,a` performs an Ack search.
+* `,a` performs an Ag search.
 * `<C-n>` / `<C-p>`: Rotate among results.
 
 ### [vim-autoclose](https://github.com/Townk/vim-autoclose)
@@ -91,22 +92,15 @@ Auto-closes, parens, curly braces, everything.
 
 ### [ctags](https://github.com/vim-scripts/ctags)
 
-First, `brew install ctags` and run the `tags` command (found in our
-[dotfiles](http://github.com/codegram/dotfiles)) on your working directory to
-generate the tag list.
+First, `brew install ctags` and run the `ctags -R .` command on your working
+directory to generate the tag list.
 
 * `<C-]>` to go to the definition of the word under the cursor (constant,
   method, whatever
 * `<C-p>` to come back.
 * `<F7>` / `<F9>` to rotate among multiple definitions of the same tag.
-
-### [ctrlp](https://github.com/kien/ctrlp)
-
-Fuzzy-find and open files at top speed!
-
-* `,o` To open the Ctrl-p window. Start typing a file name and press Enter.
-  Plus, if you add a colon and an action it will be performed afterwards
-  (`:45` will open the file and go to the line 45).
+* `<Leader>c` to search among tags with the CtrlP plugin.
+* `<Leader>b` to toggle the Tagbar
 
 ### [vim-endwise](https://github.com/tpope/vim-endwise)
 
@@ -119,9 +113,10 @@ Use Git from Vim.
 * `,gs`: Git status.
 * `,gc`: Git commit.
 
-### [vim-powerline](https://github.com/Lokaltog/vim-powerline)
+### [gist.vim](https://github.com/mattn/gist-vim)
 
-A fancy status line.
+* `:Gist [-p|-P]`: Post a [p]rivate or [P]ublic gist with the current buffer.
+  You can also run it from Visual mode to post only a part.
 
 ### [vim-rails](https://github.com/tpope/vim-rails)
 

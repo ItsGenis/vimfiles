@@ -5,6 +5,7 @@
 set nocompatible
 
 set rtp+=~/.vim/bundle/vundle/
+set rtp+=~/.powerline/powerline/bindings/vim
 call vundle#rc()
 Bundle 'gmarik/vundle'
 
@@ -17,20 +18,29 @@ let maplocalleader = "."
 " -------
 " BUNDLES
 " -------
-
+"
 Bundle 'rking/ag.vim'
 Bundle 'thoughtbot/vim-rspec'
 Bundle 'tpope/vim-surround'
-Bundle 'tpope/vim-endwise'
 Bundle 'Townk/vim-autoclose'
 Bundle 'jmartindf/vim-tcomment'
-Bundle 'Lokaltog/vim-powerline'
 Bundle 'kien/ctrlp.vim'
 
+Bundle 'mattn/webapi-vim'
+Bundle 'mattn/gist-vim'
+
+Bundle 'guns/vim-clojure-static'
+Bundle 'tpope/vim-classpath'
+Bundle 'tpope/vim-fireplace'
+
+Bundle 'ervandew/supertab'
+
+Bundle 'junkblocker/patchreview-vim'
+Bundle 'codegram/vim-codereview'
+
 Bundle 'tpope/vim-rails'
+Bundle 'tpope/vim-bundler'
 Bundle 'tpope/vim-fugitive'
-Bundle 'tpope/vim-cucumber'
-Bundle 'slim-template/vim-slim'
 Bundle 'rking/vim-ruby-refactoring'
 Bundle 'tpope/vim-dispatch'
 Bundle 'airblade/vim-gitgutter'
@@ -38,14 +48,20 @@ Bundle 'airblade/vim-gitgutter'
 Bundle 'nono/vim-handlebars'
 Bundle 'kchmck/vim-coffee-script'
 Bundle 'pangloss/vim-javascript'
-Bundle 'scrooloose/nerdtree'
+" Bundle 'scrooloose/nerdtree'
 
+Bundle 'slim-template/vim-slim'
 Bundle 'vim-scripts/ctags.vim'
-Bundle 'hced/bufkill-vim'
+Bundle 'mrxd/bufkill.vim'
 Bundle 'vim-ruby/vim-ruby'
 Bundle 'tpope/vim-markdown'
+Bundle 'scrooloose/syntastic'
 
 Bundle 'codegram/vim-haml2slim'
+Bundle 'majutsushi/tagbar'
+
+Bundle 'rizzatti/funcoo.vim'
+Bundle 'rizzatti/dash.vim'
 
 " Default color theme
 " Bundle 'sjl/badwolf'
@@ -54,6 +70,8 @@ Bundle 'codegram/vim-haml2slim'
 syntax enable
 set background=light
 colorscheme solarized
+Bundle 'wting/rust.vim'
+
 " ------------
 " VIM SETTINGS
 " ------------
@@ -68,7 +86,7 @@ set expandtab
 set foldcolumn=0
 set foldlevel=9
 set foldmethod=indent
-set hidden 
+set hidden
 set history=1000
 set hlsearch
 set ignorecase
@@ -88,7 +106,7 @@ set ruler
 set shell=/bin/bash
 set shiftwidth=2
 set showcmd
-set showmatch 
+set showmatch
 set smartcase
 set tabstop=2
 set softtabstop=2
@@ -111,10 +129,11 @@ set colorcolumn=79
 set tw=79
 set t_Co=256
 set iskeyword-=_
-set clipboard=unnamed
+"set clipboard=unnamed
 
 if has("gui_running")
-    set guioptions-=T " no toolbar set guioptions-=m " no menus
+    set guioptions-=T " no toolbar
+    set guioptions-=m " no menus
     set guioptions-=r " no scrollbar on the right
     set guioptions-=R " no scrollbar on the right
     set guioptions-=l " no scrollbar on the left
@@ -129,6 +148,7 @@ autocmd FileType ruby,haml,eruby,yaml,html,javascript,sass,cucumber set ai sw=2 
 autocmd FileType python set sw=4 sts=4 et
 autocmd BufRead *.md  set ai formatoptions=tcroqn2 comments=n:&gt;
 autocmd BufRead *.markdown  set ai formatoptions=tcroqn2 comments=n:&gt;
+autocmd BufWritePre * :%s/\s\+$//e " strip trailing whitespace
 
 " --------
 " MAPPINGS
@@ -167,7 +187,6 @@ noremap <tab> :bn<CR>
 noremap <S-tab> :bp<CR>
 nmap <leader>d :bd<CR>
 nmap <leader>D :bufdo bd<CR>
-nmap <silent> <leader>b :FufBuffer<CR>
 
 " Splits
 nnoremap <leader>v :vs<CR> <C-w>l
@@ -181,9 +200,6 @@ set pastetoggle=<F2>
 
 " Git blame
 vmap <leader>gb :Gblame<CR>
-
-" Execute current buffer as ruby
-" map <leader>r :!ruby -I"lib:test" %<cr>
 
 " Rename current file
 function! RenameFile()
@@ -257,10 +273,6 @@ map <leader>T :call RunNearestTest()<CR>
 " PLUG-IN SETTINGS
 " ----------------
 
-" Powerline (fancy status bar)
-let g:Powerline_symbols = 'fancy'
-let g:Powerline_cache_enabled = 1
-
 " Ag (Regex-based search)
 nmap <leader>a :Ag
 " Rotating among results
@@ -288,11 +300,7 @@ map <C-\> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
 map <F7> :tnext<CR>
 map <F9> :tprev<CR>
 
-" Ctrl-p
-let g:ctrlp_map = '<leader>o'
-let g:ctrlp_custom_ignore = '\v[\/](doc|tmp|log|coverage)$'
-
-" NERDtree
+" " NERDtree
 nmap <silent> <leader>p :NERDTreeToggle<cr>%
 " Surround
 " ,' switches ' and "
@@ -331,6 +339,13 @@ nmap gH <Plug>GitGutterPrevHunk
 syntax on
 filetype indent plugin on
 
+" Vim Gist
+let g:gist_clip_command = 'pbcopy'
+" let g:gist_clip_command = 'xclip -selection clipboard'
+let g:gist_detect_filetype = 1
+let g:gist_open_browser_after_post = 1
+let g:gist_post_private = 1
+
 " Vim dispatch
 autocmd FileType ruby
       \ if expand('%') =~# '_test\.rb$' |
@@ -340,3 +355,25 @@ autocmd FileType ruby
       \ else |
       \   compiler ruby | setl makeprg=ruby\ -wc\ \"%:p\" |
       \ endif
+
+" Rspec.vim mappings
+map <Leader>t :call RunCurrentSpecFile()<CR>
+map <Leader>s :call RunNearestSpec()<CR>
+map <Leader>l :call RunLastSpec()<CR>
+map <Leader>r :call RunAllSpecs()<CR>
+
+if executable("spring")
+  let g:rspec_command = "!bundle exec spring rspec {spec}"
+endif
+
+if executable("zeus")
+  let g:rspec_command = "compiler rspec | set makeprg=zeus | Make rspec {spec}"
+endif
+
+nnoremap <silent> <Leader>b :TagbarToggle<CR>
+
+" Ctrlp.vim
+let g:ctrlp_map = '<leader>o'
+let g:ctrlp_working_path_mode = 'ra'
+map <leader>c :CtrlPTag<cr>
+
