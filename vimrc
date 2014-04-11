@@ -43,13 +43,17 @@ Bundle 'scrooloose/nerdtree'
 Bundle 'vim-scripts/ctags.vim'
 Bundle 'hced/bufkill-vim'
 Bundle 'vim-ruby/vim-ruby'
+Bundle 'tpope/vim-markdown'
 
 Bundle 'codegram/vim-haml2slim'
 
 " Default color theme
-Bundle 'sjl/badwolf'
-colorscheme badwolf
+" Bundle 'sjl/badwolf'
+" colorscheme badwolf
 
+syntax enable
+set background=light
+colorscheme solarized
 " ------------
 " VIM SETTINGS
 " ------------
@@ -319,7 +323,7 @@ if &term =~ '256color'
 endif
 let g:clojure_align_multiline_strings = 1
 
-colorscheme badwolf
+" colorscheme badwolf
 
 nmap gh <Plug>GitGutterNextHunk
 nmap gH <Plug>GitGutterPrevHunk
