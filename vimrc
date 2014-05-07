@@ -18,6 +18,7 @@ let maplocalleader = "."
 " BUNDLES
 " -------
 
+Bundle 'tpope/vim-markdown'
 Bundle 'rking/ag.vim'
 Bundle 'thoughtbot/vim-rspec'
 Bundle 'tpope/vim-surround'
@@ -27,36 +28,39 @@ Bundle 'jmartindf/vim-tcomment'
 Bundle 'Lokaltog/vim-powerline'
 Bundle 'kien/ctrlp.vim'
 
-" Bundle 'mattn/webapi-vim'
-" Bundle 'mattn/gist-vim'
-
 Bundle 'tpope/vim-rails'
 Bundle 'tpope/vim-fugitive'
-" Bundle 'tpope/vim-cucumber'
+Bundle 'tpope/vim-cucumber'
 Bundle 'slim-template/vim-slim'
 Bundle 'leebo/vim-slim'
-" Bundle 'rking/vim-ruby-refactoring'
-" Bundle 'tpope/vim-dispatch'
+Bundle 'rking/vim-ruby-refactoring'
+Bundle 'tpope/vim-dispatch'
+Bundle 'airblade/vim-gitgutter'
 
 Bundle 'nono/vim-handlebars'
 Bundle 'kchmck/vim-coffee-script'
 Bundle 'pangloss/vim-javascript'
+
 Bundle 'scrooloose/nerdtree'
 
-" Bundle 'vim-scripts/ctags.vim'
-Bundle 'mrxd/bufkill.vim'
-Bundle 'vim-ruby/vim-ruby'
-Bundle 'scrooloose/syntastic'
+Bundle 'vim-scripts/ctags.vim'
+Bundle 'hced/bufkill-vim'
 
-" Bundle 'codegram/vim-haml2slim'
+Bundle 'vim-ruby/vim-ruby'
+Bundle 'kchmck/vim-coffee-script'
+Bundle 'nono/vim-handlebars'
+Bundle 'codegram/vim-haml2slim'
+
+Bundle 'codegram/vim-haml2slim'
 
 " Default color theme
-Bundle 'altercation/vim-colors-solarized'
+" Bundle 'sjl/badwolf'
+" colorscheme badwolf
+
+syntax enable
+" set background=dark
 set background=light
 colorscheme solarized
-
-Bundle 'junkblocker/patchreview-vim'
-Bundle 'codegram/vim-codereview'
 
 " ------------
 " VIM SETTINGS
@@ -72,7 +76,7 @@ set expandtab
 set foldcolumn=0
 set foldlevel=9
 set foldmethod=indent
-set hidden
+set hidden 
 set history=1000
 set hlsearch
 set ignorecase
@@ -89,10 +93,10 @@ set noswapfile
 set number
 set numberwidth=4
 set ruler
-set shell=/bin/zsh
+set shell=/bin/bash
 set shiftwidth=2
 set showcmd
-set showmatch
+set showmatch 
 set smartcase
 set tabstop=2
 set softtabstop=2
@@ -107,14 +111,15 @@ set wildmode=list:longest
 set visualbell
 set cursorline
 set ttyfast
-set wildignore+=.svn,CVS,.git,.hg,*.o,*.a,*.class,*.mo,*.la,*.so,*.obj,*.swp,*.jpg,*.png,*.xpm,*.gif,.gitkeep,.DS_Store,*.log
+set textwidth=78
+set wildignore+=.svn,CVS,.git,.hg,*.o,*.a,*.class,*.mo,*.la,*.so,*.obj,*.swp,*.jpg,*.png,*.xpm,*.gif,.gitkeep,.DS_Store
 set textwidth=79
 set formatoptions=n
 set colorcolumn=79
 set tw=79
 set t_Co=256
 set iskeyword-=_
-"set clipboard=unnamed
+set clipboard=unnamed
 
 if has("gui_running")
     set guioptions-=T " no toolbar set guioptions-=m " no menus
@@ -130,7 +135,9 @@ set guifont=Monaco:h12
 " Autocommands depending on file type
 autocmd FileType ruby,haml,eruby,yaml,html,javascript,sass,cucumber set ai sw=2 sts=2 et
 autocmd FileType python set sw=4 sts=4 et
-autocmd BufWritePre * :%s/\s\+$//e " strip trailing whitespace
+autocmd BufRead *.md  set ai formatoptions=tcroqn2 comments=n:&gt;
+autocmd BufRead *.markdown  set ai formatoptions=tcroqn2 comments=n:&gt;
+
 " --------
 " MAPPINGS
 " --------
@@ -168,6 +175,7 @@ noremap <tab> :bn<CR>
 noremap <S-tab> :bp<CR>
 nmap <leader>d :bd<CR>
 nmap <leader>D :bufdo bd<CR>
+nmap <silent> <leader>b :FufBuffer<CR>
 
 " Splits
 nnoremap <leader>v :vs<CR> <C-w>l
@@ -180,10 +188,22 @@ nnoremap <C-l> <C-w>l
 set pastetoggle=<F2>
 
 " Git blame
-vmap <leader>gb :Gblame<CR>
+" vmap <Leader>gb :<C-U>!git blame <C-R>=expand("%:p") <CR> \\| sed -n <C-R>=line("'<") <CR>,<C-R>=line("'>") <CR>p<CR>
 
 " Execute current buffer as ruby
 " map <leader>r :!ruby -I"lib:test" %<cr>
+
+" Rename current file
+function! RenameFile()
+    let old_name = expand('%')
+    let new_name = input('New file name: ', expand('%'))
+    if new_name != '' && new_name != old_name
+        exec ':saveas ' . new_name
+        exec ':silent !rm ' . old_name
+        redraw!
+    endif
+endfunction
+map <leader>n :call RenameFile()<cr>
 
 "--------------
 " RUNNING TESTS
@@ -205,7 +225,7 @@ function! RunTests(filename)
       elseif match(a:filename, '_test\.rb') != -1
         exec ":!ruby -I'lib:test' " . a:filename
       elseif match(a:filename, '_spec\.rb') != -1
-        exec ":!rspec --color " . a:filename
+        exec ":!rspec --color --drb " . a:filename
       end
     end
 endfunction
@@ -255,6 +275,10 @@ nmap <leader>a :Ag
 map <C-n> :cn<CR>
 map <C-p> :cp<CR>
 
+" Fugitive (Git)
+nmap <leader>gs :Gstatus<CR>
+nmap <leader>gc :Gcommit<CR>
+
 " TComment
 map <Leader>co :TComment<CR>
 
@@ -278,7 +302,6 @@ let g:ctrlp_custom_ignore = '\v[\/](doc|tmp|log|coverage)$'
 
 " NERDtree
 nmap <silent> <leader>p :NERDTreeToggle<cr>%
-
 " Surround
 " ,' switches ' and "
 nnoremap <leader>' ""yls<c-r>={'"': "'", "'": '"'}[@"]<cr><esc>
@@ -288,6 +311,9 @@ let g:syntastic_check_on_open=0
 let g:syntastic_echo_current_error=0
 let g:syntastic_auto_jump=0
 let g:syntastic_auto_loc_list=0
+
+" Haml2Slim
+nnoremap <leader>h2s :call Haml2Slim(bufname("%"))<CR>
 
 " --------------------
 " CUSTOM CONFIGURATION
@@ -303,6 +329,12 @@ if &term =~ '256color'
   " See also http://snk.tuxfamily.org/log/vim-256color-bce.html
   set t_ut=
 endif
+let g:clojure_align_multiline_strings = 1
+
+" colorscheme badwolf
+
+nmap gh <Plug>GitGutterNextHunk
+nmap gH <Plug>GitGutterPrevHunk
 
 syntax on
 filetype indent plugin on
@@ -322,13 +354,6 @@ map <Leader>t :call RunCurrentSpecFile()<CR>
 map <Leader>s :call RunNearestSpec()<CR>
 map <Leader>l :call RunLastSpec()<CR>
 map <Leader>r :call RunAllSpecs()<CR>
-
-if executable("spring")
-  let g:rspec_command = "!bundle exec spring rspec {spec}"
-endif
-
 if executable("zeus")
-  let g:rspec_command = "!bundle exec zeus rspec {spec}"
+  let g:rspec_command = "!zeus rspec {spec}"
 endif
-
-imap jk <Esc>
