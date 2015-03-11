@@ -24,21 +24,18 @@ Bundle 'thoughtbot/vim-rspec'
 Bundle 'tpope/vim-surround'
 Bundle 'tpope/vim-endwise'
 Bundle 'Townk/vim-autoclose'
-Bundle 'jmartindf/vim-tcomment'
+Bundle 'tomtom/tcomment_vim'
 Bundle 'Lokaltog/vim-powerline'
 Bundle 'kien/ctrlp.vim'
 
 Bundle 'tpope/vim-rails'
 Bundle 'tpope/vim-fugitive'
 Bundle 'tpope/vim-cucumber'
-Bundle 'slim-template/vim-slim'
 Bundle 'leebo/vim-slim'
 Bundle 'rking/vim-ruby-refactoring'
 Bundle 'tpope/vim-dispatch'
 Bundle 'airblade/vim-gitgutter'
 
-Bundle 'nono/vim-handlebars'
-Bundle 'kchmck/vim-coffee-script'
 Bundle 'pangloss/vim-javascript'
 
 Bundle 'scrooloose/nerdtree'
@@ -51,15 +48,13 @@ Bundle 'kchmck/vim-coffee-script'
 Bundle 'nono/vim-handlebars'
 Bundle 'codegram/vim-haml2slim'
 
-Bundle 'codegram/vim-haml2slim'
 
 " Default color theme
 " Bundle 'sjl/badwolf'
 " colorscheme badwolf
 
 syntax enable
-" set background=dark
-set background=light
+set background=dark
 colorscheme solarized
 
 " ------------
