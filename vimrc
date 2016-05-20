@@ -18,35 +18,36 @@ let maplocalleader = "."
 " BUNDLES
 " -------
 
+" SYNTAX
 Bundle 'tpope/vim-markdown'
-Bundle 'rking/ag.vim'
 Bundle 'thoughtbot/vim-rspec'
-Bundle 'tpope/vim-surround'
-Bundle 'tpope/vim-endwise'
-Bundle 'Townk/vim-autoclose'
-Bundle 'tomtom/tcomment_vim'
-Bundle 'Lokaltog/vim-powerline'
-Bundle 'kien/ctrlp.vim'
-
 Bundle 'tpope/vim-rails'
-Bundle 'tpope/vim-fugitive'
 Bundle 'tpope/vim-cucumber'
-Bundle 'leebo/vim-slim'
-Bundle 'rking/vim-ruby-refactoring'
-Bundle 'tpope/vim-dispatch'
-Bundle 'airblade/vim-gitgutter'
-
-Bundle 'pangloss/vim-javascript'
-
-Bundle 'scrooloose/nerdtree'
-
-Bundle 'vim-scripts/ctags.vim'
-Bundle 'hced/bufkill-vim'
-
 Bundle 'vim-ruby/vim-ruby'
 Bundle 'kchmck/vim-coffee-script'
 Bundle 'nono/vim-handlebars'
-Bundle 'codegram/vim-haml2slim'
+Bundle 'elixir-lang/vim-elixir'
+Bundle 'pangloss/vim-javascript'
+Bundle 'digitaltoad/vim-pug'
+Bundle 'Quramy/tsuquyomi'
+
+" TOOLS
+Bundle 'Lokaltog/vim-powerline'
+Bundle 'kien/ctrlp.vim'
+Bundle 'rking/ag.vim'
+Bundle 'scrooloose/nerdtree'
+Bundle 'vim-scripts/ctags.vim'
+Bundle 'Shougo/vimproc'
+
+" GIT
+Bundle 'tpope/vim-fugitive'
+Bundle 'airblade/vim-gitgutter'
+
+" TYPING TOOLS
+Bundle 'tpope/vim-surround'
+Bundle 'tpope/vim-endwise'
+Bundle 'tomtom/tcomment_vim'
+Bundle 'Townk/vim-autoclose'
 
 
 " Default color theme
@@ -54,8 +55,9 @@ Bundle 'codegram/vim-haml2slim'
 " colorscheme badwolf
 
 syntax enable
-set background=dark
-colorscheme solarized
+" set background=dark
+" colorscheme solarized
+colorscheme jellybeans
 
 " ------------
 " VIM SETTINGS
@@ -114,16 +116,16 @@ set colorcolumn=79
 set tw=79
 set t_Co=256
 set iskeyword-=_
-set clipboard=unnamed
+set clipboard=unnamedplus
 
 if has("gui_running")
-    set guioptions-=T " no toolbar set guioptions-=m " no menus
-    set guioptions-=r " no scrollbar on the right
-    set guioptions-=R " no scrollbar on the right
-    set guioptions-=l " no scrollbar on the left
-    set guioptions-=b " no scrollbar on the bottom
-    set guioptions=aiA
-    set mouse=v
+   set guioptions-=T " no toolbar set guioptions-=m " no menus
+   set guioptions-=r " no scrollbar on the right
+   set guioptions-=R " no scrollbar on the right
+   set guioptions-=l " no scrollbar on the left
+   set guioptions-=b " no scrollbar on the bottom
+   set guioptions=aiA
+   set mouse=v
 endif
 set guifont=Monaco:h12
 
@@ -190,13 +192,13 @@ set pastetoggle=<F2>
 
 " Rename current file
 function! RenameFile()
-    let old_name = expand('%')
-    let new_name = input('New file name: ', expand('%'))
-    if new_name != '' && new_name != old_name
-        exec ':saveas ' . new_name
-        exec ':silent !rm ' . old_name
-        redraw!
-    endif
+   let old_name = expand('%')
+   let new_name = input('New file name: ', expand('%'))
+   if new_name != '' && new_name != old_name
+       exec ':saveas ' . new_name
+       exec ':silent !rm ' . old_name
+       redraw!
+   endif
 endfunction
 map <leader>n :call RenameFile()<cr>
 
@@ -204,53 +206,53 @@ map <leader>n :call RenameFile()<cr>
 " RUNNING TESTS
 "--------------
 function! RunTests(filename)
-    " Write the file and run tests for the given filename
-    :w
-    :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
-    :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
-    :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
-    :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
-    :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
-    :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
-    if match(a:filename, '\.feature') != -1
-      exec ":!bundle exec spinach " . a:filename
-    else
-      if filereadable("script/test")
-        exec ":!script/test " . a:filename
-      elseif match(a:filename, '_test\.rb') != -1
-        exec ":!ruby -I'lib:test' " . a:filename
-      elseif match(a:filename, '_spec\.rb') != -1
-        exec ":!rspec --color --drb " . a:filename
-      end
-    end
+   " Write the file and run tests for the given filename
+   :w
+   :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
+   :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
+   :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
+   :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
+   :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
+   :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
+   if match(a:filename, '\.feature') != -1
+     exec ":!bundle exec spinach " . a:filename
+   else
+     if filereadable("script/test")
+       exec ":!script/test " . a:filename
+     elseif match(a:filename, '_test\.rb') != -1
+       exec ":!ruby -I'lib:test' " . a:filename
+     elseif match(a:filename, '_spec\.rb') != -1
+       exec ":!rspec --color --drb " . a:filename
+     end
+   end
 endfunction
 
 function! SetTestFile()
-    " Set the spec file that tests will be run for.
-    let t:grb_test_file=@%
+   " Set the spec file that tests will be run for.
+   let t:grb_test_file=@%
 endfunction
 
 function! RunTestFile(...)
-    if a:0
-        let command_suffix = a:1
-    else
-        let command_suffix = ""
-    endif
+   if a:0
+       let command_suffix = a:1
+   else
+       let command_suffix = ""
+   endif
 
-    " Run the tests for the previously-marked file.
-    let in_test_file = match(expand("%"), '\(.feature\|_spec.rb\|_test.rb\)$') != -1
-    if in_test_file
-        call SetTestFile()
-    elseif !exists("t:grb_test_file")
-        return
-    end
-    call RunTests(t:grb_test_file . command_suffix)
+   " Run the tests for the previously-marked file.
+   let in_test_file = match(expand("%"), '\(.feature\|_spec.rb\|_test.rb\)$') != -1
+   if in_test_file
+       call SetTestFile()
+   elseif !exists("t:grb_test_file")
+       return
+   end
+   call RunTests(t:grb_test_file . command_suffix)
 endfunction
 
 function! RunNearestTest()
-    let spec_line_number = line('.')
+   let spec_line_number = line('.')
 
-    call RunTestFile(":" . spec_line_number)
+   call RunTestFile(":" . spec_line_number)
 endfunction
 
 map <leader>t :call RunTestFile()<CR>
@@ -315,14 +317,14 @@ nnoremap <leader>h2s :call Haml2Slim(bufname("%"))<CR>
 " --------------------
 let my_home = expand("$HOME/")
 if filereadable(my_home . '.vimrc.local')
-  source ~/.vimrc.local
+ source ~/.vimrc.local
 endif
 
 if &term =~ '256color'
-  " Disable Background Color Erase (BCE) so that color schemes
-  " work properly when Vim is used inside tmux and GNU screen.
-  " See also http://snk.tuxfamily.org/log/vim-256color-bce.html
-  set t_ut=
+ " Disable Background Color Erase (BCE) so that color schemes
+ " work properly when Vim is used inside tmux and GNU screen.
+ " See also http://snk.tuxfamily.org/log/vim-256color-bce.html
+ set t_ut=
 endif
 let g:clojure_align_multiline_strings = 1
 
@@ -336,13 +338,13 @@ filetype indent plugin on
 
 " Vim dispatch
 autocmd FileType ruby
-      \ if expand('%') =~# '_test\.rb$' |
-      \   compiler rubyunit | setl makeprg=testrb\ \"%:p\" |
-      \ elseif expand('%') =~# '_spec\.rb$' |
-      \   compiler rspec | setl makeprg=bundle\ exec\ rspec\ \"%:p\" |
-      \ else |
-      \   compiler ruby | setl makeprg=ruby\ -wc\ \"%:p\" |
-      \ endif
+     \ if expand('%') =~# '_test\.rb$' |
+     \   compiler rubyunit | setl makeprg=testrb\ \"%:p\" |
+     \ elseif expand('%') =~# '_spec\.rb$' |
+     \   compiler rspec | setl makeprg=bundle\ exec\ rspec\ \"%:p\" |
+     \ else |
+     \   compiler ruby | setl makeprg=ruby\ -wc\ \"%:p\" |
+     \ endif
 
 " Rspec.vim mappings
 map <Leader>t :call RunCurrentSpecFile()<CR>
@@ -350,5 +352,5 @@ map <Leader>s :call RunNearestSpec()<CR>
 map <Leader>l :call RunLastSpec()<CR>
 map <Leader>r :call RunAllSpecs()<CR>
 if executable("zeus")
-  let g:rspec_command = "!zeus rspec {spec}"
+ let g:rspec_command = "!zeus rspec {spec}"
 endif
