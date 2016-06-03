@@ -334,6 +334,7 @@ nmap gh <Plug>GitGutterNextHunk
 nmap gH <Plug>GitGutterPrevHunk
 
 syntax on
+filetype off
 filetype indent plugin on
 
 " Vim dispatch
