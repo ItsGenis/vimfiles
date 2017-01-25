@@ -30,6 +30,8 @@ Bundle 'elixir-lang/vim-elixir'
 Bundle 'pangloss/vim-javascript'
 Bundle 'digitaltoad/vim-pug'
 Bundle 'Quramy/tsuquyomi'
+Bundle 'slim-template/vim-slim'
+Bundle 'leafgarland/typescript-vim'
 
 " TOOLS
 Bundle 'Lokaltog/vim-powerline'
@@ -52,12 +54,12 @@ Bundle 'Townk/vim-autoclose'
 
 " Default color theme
 " Bundle 'sjl/badwolf'
-" colorscheme badwolf
+colorscheme gruvbox
 
 syntax enable
 " set background=dark
 " colorscheme solarized
-colorscheme jellybeans
+" colorscheme jellybeans
 
 " ------------
 " VIM SETTINGS
@@ -116,7 +118,7 @@ set colorcolumn=79
 set tw=79
 set t_Co=256
 set iskeyword-=_
-set clipboard=unnamedplus
+set clipboard=unnamed
 
 if has("gui_running")
    set guioptions-=T " no toolbar set guioptions-=m " no menus
@@ -302,6 +304,7 @@ nmap <silent> <leader>p :NERDTreeToggle<cr>%
 " Surround
 " ,' switches ' and "
 nnoremap <leader>' ""yls<c-r>={'"': "'", "'": '"'}[@"]<cr><esc>
+let g:NERDTreeWinSize = 60
 
 " Syntastic
 let g:syntastic_check_on_open=0
