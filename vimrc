@@ -32,6 +32,15 @@ Bundle 'digitaltoad/vim-pug'
 Bundle 'Quramy/tsuquyomi'
 Bundle 'slim-template/vim-slim'
 Bundle 'leafgarland/typescript-vim'
+Bundle 'mxw/vim-jsx'
+
+" vim-react-snippets:
+Bundle "justinj/vim-react-snippets"
+
+" SnipMate and its dependencies:
+Bundle "MarcWeber/vim-addon-mw-utils"
+Bundle "tomtom/tlib_vim"
+Bundle "garbas/vim-snipmate"
 
 " TOOLS
 Bundle 'Lokaltog/vim-powerline'
