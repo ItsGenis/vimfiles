@@ -34,21 +34,21 @@ Bundle 'slim-template/vim-slim'
 Bundle 'leafgarland/typescript-vim'
 Bundle 'mxw/vim-jsx'
 
-" Track the engine.
-Plugin 'SirVer/ultisnips'
-
 " Snippets are separated from the engine. Add this if you want them:
 Plugin 'honza/vim-snippets'
+
+" Track the engine.
+Plugin 'SirVer/ultisnips'
 
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+let g:UltiSnipsListSnippets="<c-l>"
+let g:UltiSnipsSnippetDirectories=[$HOME.'/.vim/UltiSnips']
 
 " If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit="vertical"
-
-Bundle 'greg-js/vim-react-es6-snippets'
 
 " TOOLS
 Bundle 'Lokaltog/vim-powerline'
