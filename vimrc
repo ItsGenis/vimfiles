@@ -34,6 +34,10 @@ Bundle 'slim-template/vim-slim'
 Bundle 'leafgarland/typescript-vim'
 Bundle 'mxw/vim-jsx'
 
+" Allow JSX highlighting in JS files
+" Requires pangloss/vim-javascript
+let g:jsx_ext_required = 0
+
 " Snippets are separated from the engine. Add this if you want them:
 Plugin 'honza/vim-snippets'
 
