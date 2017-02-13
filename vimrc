@@ -57,7 +57,7 @@ let g:UltiSnipsEditSplit="vertical"
 " TOOLS
 Bundle 'Lokaltog/vim-powerline'
 Bundle 'kien/ctrlp.vim'
-Bundle 'rking/ag.vim'
+Bundle 'mileszs/ack.vim'
 Bundle 'scrooloose/nerdtree'
 Bundle 'vim-scripts/ctags.vim'
 Bundle 'Shougo/vimproc'
