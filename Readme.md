@@ -1,6 +1,6 @@
 # vimfiles
 
-These are the new Codegram vimfiles! Slightly changed by Dor3nz, still cleaning up the mess though.
+These are the new Codegram vimfiles! Slightly changed by me, still cleaning up the mess though.
 
 ## Installing
 
