@@ -41,9 +41,6 @@ let g:jsx_ext_required = 0
 " Snippets are separated from the engine. Add this if you want them:
 Plugin 'honza/vim-snippets'
 
-" Track the engine.
-Plugin 'SirVer/ultisnips'
-
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
