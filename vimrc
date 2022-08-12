@@ -41,16 +41,6 @@ let g:jsx_ext_required = 0
 " Snippets are separated from the engine. Add this if you want them:
 Plugin 'honza/vim-snippets'
 
-" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<c-b>"
-let g:UltiSnipsJumpBackwardTrigger="<c-z>"
-let g:UltiSnipsListSnippets="<c-l>"
-let g:UltiSnipsSnippetDirectories=[$HOME.'/.vim/UltiSnips']
-
-" If you want :UltiSnipsEdit to split your window.
-let g:UltiSnipsEditSplit="vertical"
-
 " TOOLS
 Bundle 'Lokaltog/vim-powerline'
 Bundle 'kien/ctrlp.vim'
