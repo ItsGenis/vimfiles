@@ -6,7 +6,7 @@ These are the new Codegram vimfiles! Slightly changed by me, still cleaning up t
 
 Clone this repo:
 
-    $ git clone https://github.com/dor3nz/vimfiles.git ~/.vim
+    $ git clone https://github.com/ItsGenis/vimfiles.git ~/.vim
     $ rm ~/.vimrc && ln -s ~/.vim/vimrc ~/.vimrc
 
 Install [Vundle](https://github.com/gmarik/vundle):
@@ -22,10 +22,6 @@ Set up your `~/vimrc.local` with your custom plugins, themes, for example:
 Open up Vim, and issue this command:
 
     :BundleInstall
-
-Now compile the vimproc extension:
-
-    cd ~/.vim/bundle/vimproc.vim && make
 
 TA-DA! Everything's done!
 
